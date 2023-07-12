@@ -9,10 +9,10 @@ class Thing {
 }
 
 class Animal extends Thing {
-  name: string;
-  constructor(name = "dog") {
+  type: string;
+  constructor(type = "dog") {
     super();
-    this.name = name;
+    this.type = type;
   }
 
   eat = () => {
@@ -20,14 +20,14 @@ class Animal extends Thing {
   };
 
   say() {
-    console.log(`Hi, i'm ${this.name}`);
+    console.log(`Hi, i'm ${this.type}`);
   }
 }
 
 const cat = new Animal("cat");
 const dog = new Thing();
 
-// instance
+// prototype
 /**
  * Animal {
   born: [Function (anonymous)],
@@ -60,7 +60,7 @@ console.log(Object.getPrototypeOf(Animal) === Thing); // true
 // { die: [Function (anonymous)] }
 console.log(Object.getPrototypeOf(Animal.prototype));
 
-// console.log(Animal.constructor);
+console.log(Object.getPrototypeOf(Animal.prototype) === Thing.prototype);
 
 // [Function: Thing]
 console.log(Thing);
@@ -72,13 +72,19 @@ console.log(Thing.prototype);
 console.log(Object.getPrototypeOf(Thing));
 
 // [Object: null prototype] {}
-console.log(Object.getPrototypeOf(Thing.prototype)); // [Object: null prototype] {}
+console.log(Object.getPrototypeOf(Thing.prototype));
+
+// true
+console.log(Object.getPrototypeOf(Thing.prototype) === Object.prototype);
 
 // true
 console.log(Object.getPrototypeOf(Thing) === Function.prototype);
 
 // {}
 console.log(Object.getPrototypeOf(Function));
+
+// true
+console.log(Object.getPrototypeOf(Function.prototype) === Object.prototype);
 
 // {}
 console.log(Object.getPrototypeOf(Object));
@@ -92,10 +98,12 @@ console.log(Object.prototype.constructor === Object);
 // [Object: null prototype] {}
 console.log(Object.getPrototypeOf({}));
 
-// [ 'born', 'eat', 'name' ]
+// property names
+// [ 'born', 'eat', 'type' ]
 console.log(Object.getOwnPropertyNames(cat));
 
-// [ 'length', 'name', 'prototype' ], 继承了Function对象的属性
+// Animal.prototype.constructor = Animal
+// [ 'length', 'name', 'arguments', 'caller', 'prototype' ], 继承了Function对象的属性
 console.log(Object.getOwnPropertyNames(Animal));
 
 // [ 'constructor', 'say' ]
@@ -104,7 +112,7 @@ console.log(Object.getOwnPropertyNames(Object.getPrototypeOf(cat)));
 // [ 'born' ]
 console.log(Object.getOwnPropertyNames(dog));
 
-// [ 'length', 'name', 'prototype' ]
+// [ 'length', 'name', 'arguments', 'caller', 'prototype' ]
 console.log(Object.getOwnPropertyNames(Thing));
 
 // [ 'constructor', 'die' ]
