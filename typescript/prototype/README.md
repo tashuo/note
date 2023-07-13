@@ -33,7 +33,6 @@ class Animal extends Thing {
 const cat = new Animal("cat");
 const dog = new Thing();
 
-
 ```
 
 以下几个的值分别是什么
@@ -47,22 +46,22 @@ const dog = new Thing();
 
 ### 解题
 #### 1. `Object.getOwnPropertyNames(cat)`
-`cat`对象由`Animal`类实例化而来，继承Animal类(及其父类及父类的父类...)的所有属性，即**`[ 'born', 'eat', 'name' ]`**
+`cat`对象由`Animal`类实例化而来，继承Animal类(及其父类及父类的父类...)的所有属性，即`[ 'born', 'eat', 'name' ]`
 
 #### 2. `Object.getOwnPropertyNames(dog)`
-同理1，dog对象继承Thing，拥有的属性是**`[ 'born' ]`**
+同理1，dog对象继承Thing，拥有的属性是`[ 'born' ]`
 
 #### 3. `Object.getOwnPropertyNames(Object.getPrototypeOf(cat))`
-`cat`对象的原型对象即`Animal.prototype`，**原型对象默认有一个constructor属性指向构造函数本身**，即`Animal.prototype.constructor = Animal`，再加上`Animal`类本身定义的say方法，所以结果是**`[ 'constructor', 'say' ]`**
+`cat`对象的原型对象即`Animal.prototype`，**原型对象默认有一个constructor属性指向构造函数本身**，即`Animal.prototype.constructor = Animal`，再加上`Animal`类本身定义的say方法，所以结果是`[ 'constructor', 'say' ]`
 
 #### 4. `Object.getOwnPropertyNames(Object.getPrototypeOf(dog))`
-同理3，结果是**`[ 'constructor', 'die' ]`**
+同理3，结果是`[ 'constructor', 'die' ]`
 
 #### 5. `Object.getOwnPropertyNames(Animal)`
-这个有点绕，在一切皆对象的`JavaScript`中，`Animal`类也是一个函数对象，实例化内置的`Function`对象而来，底层的定义类似于`let Animal = new Function('name', { ...Animal构造函数的方法体... })`，所以继承了Function的所有属性，即**`[ 'length', 'name', 'arguments', 'caller', 'prototype' ]`**(ES5, 新标准中Function的属性有所出入，此处暂不考虑)
+这个有点绕，在一切皆对象的`JavaScript`中，`Animal`类也是一个函数对象，实例化内置的`Function`对象而来，底层的定义类似于`let Animal = new Function('name', { ...Animal构造函数的方法体... })`，所以继承了Function的所有属性，即`[ 'length', 'name', 'arguments', 'caller', 'prototype' ]`(ES5, 新标准中Function的属性有所出入，此处暂不考虑)
 
 #### 6. `Object.getOwnPropertyNames(Thing)`
-同理5，结果一样是**`[ 'length', 'name', 'arguments', 'caller', 'prototype' ]`**
+同理5，结果一样是`[ 'length', 'name', 'arguments', 'caller', 'prototype' ]`
 
 
 ### 深入
@@ -88,7 +87,7 @@ const dog = new Thing();
 
 简单来讲，目前的标准有两种获取原型对象的方式，`prototype`和`Object.getPrototypeOf`，而且有使用限制：
 
-* **`prototype`只能用于构造函数，如本文中的`Animal`、`Thing`**
+* `prototype`只能用于构造函数，如本文中的`Animal`、`Thing`
 
 这句话除了含有**非构造函数只能用`Object.getPrototypeOf`获取原型对象**的意义外，还隐藏着另外一个原则，即**构造函数也可以用`Object.getPrototypeOf`获取原型对象**，这含义真的是九曲十八弯，脑袋冒烟不打紧，我们继续看，根据`JavaScript`原型链的定义，可得出以下结论：
 
@@ -187,7 +186,9 @@ var Animal = /** @class */ (function (_super) {
     
     这个流程中，第一次看到整篇都在谈却一直没见踪影的的原型对象本尊，上面通过`prototype`和`Object.getPrototypeOf`获取到的就是abc这样的原型对象，结合我们的实例可得出：`Object.getPrototypeOf(cat)` = `Animal.prototype` = `abc`，`Object.getPrototypeOf(Animal.prototype)` = `abc.__proto__` = `Thing.prototype`，跟我们上面谈到的也对上了号
 
-*最后祭出这张神图！！*
+### 献祭
+最后祭出这张神图！！
+
 ![VgXXkZ.png](https://i.imgloc.com/2023/07/12/VgXXkZ.png)
     
 ### 结尾
